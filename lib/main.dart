@@ -1,3 +1,5 @@
+import 'package:e_commerce_app/core/utils/app_routes.dart';
+import 'package:e_commerce_app/features/splash_screen/splash_screen.dart';
 import 'package:e_commerce_app/home_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -10,8 +12,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: HomeScreen.routeName,
+      initialRoute: SplashScreen.routeName,
       routes: {
+        SplashScreen.routeName: (context) => SplashScreen(),
         HomeScreen.routeName: (context) => HomeScreen()
       },
     );
