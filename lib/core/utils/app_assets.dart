@@ -1,5 +1,5 @@
 class AppAssets{
-  static const String autoRouteLogo = 'assets/images/authRouteLogo.png';
+  static const String authRouteLogo = 'assets/images/authRouteLogo.png';
   static const String beautyCategory = 'assets/images/beautyCategory.png';
   static const String categoryTabIcon = 'assets/images/categoryTabIcon.png';
   static const String categoryTabIconSelected = 'assets/images/categoryTabIconSelected.png';
@@ -18,4 +18,6 @@ class AppAssets{
   static const String advertisement1 = 'assets/images/advertisement1.png';
   static const String advertisement2 = 'assets/images/advertisement2.png';
   static const String advertisement3 = 'assets/images/advertisement3.png';
+  static const String topCurve = 'assets/images/topCurve.png';
+  static const String bottomCurve = 'assets/images/bottomCurve.png';
 }
