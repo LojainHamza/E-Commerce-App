@@ -1,7 +1,7 @@
-import 'package:e_commerce_app/core/utils/app_routes.dart';
-import 'package:e_commerce_app/features/splash_screen/splash_screen.dart';
-import 'package:e_commerce_app/home_screen.dart';
+import 'package:e_commerce_app/features/ui/auth/login/login_screen.dart';
+import 'package:e_commerce_app/features/ui/auth/register/register_screen.dart';
 import 'package:flutter/material.dart';
+import 'features/ui/splash_screen/splash_screen.dart';
 
 void main(){
   runApp(MyApp());
@@ -16,7 +16,8 @@ class MyApp extends StatelessWidget {
       initialRoute: SplashScreen.routeName,
       routes: {
         SplashScreen.routeName: (context) => SplashScreen(),
-        HomeScreen.routeName: (context) => HomeScreen()
+        LoginScreen.routeName: (context) => LoginScreen(),
+        RegisterScreen.routeName: (context) => RegisterScreen()
       },
     );
   }

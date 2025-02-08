@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatelessWidget {
-  static const String routeName = 'HomeScreen';
+class LoginScreen extends StatelessWidget {
+  static const String routeName = 'LoginScreen';
 
   @override
   Widget build(BuildContext context) {
