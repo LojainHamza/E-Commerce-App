@@ -1,6 +1,6 @@
 import 'package:e_commerce_app/core/utils/app_colors.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomTextField extends StatefulWidget {
   Color? filledColor;
@@ -24,8 +24,7 @@ class CustomTextField extends StatefulWidget {
   bool readOnly;
 
   CustomTextField(
-      {
-      this.filledColor = AppColors.whiteColor,
+      {this.filledColor = AppColors.whiteColor,
       this.cursorColor,
       this.onSaved,
       this.onChanged,
@@ -43,8 +42,7 @@ class CustomTextField extends StatefulWidget {
       this.isPassword = false,
       this.maxLines,
       this.keyboardType = TextInputType.text,
-      this.readOnly = false
-      });
+      this.readOnly = false});
 
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
@@ -73,15 +71,17 @@ class _CustomTextFieldState extends State<CustomTextField> {
           labelStyle: widget.labelStyle,
           fillColor: widget.filledColor,
           prefixIcon: widget.prefixIcon,
-          suffixIcon: widget.isPassword?
-              IconButton(onPressed: (){
-                widget.isObscureText = !widget.isObscureText;
-                setState(() {
-
-                });
-              }, icon: Icon(widget.isObscureText?
-              Icons.visibility_off:Icons.visibility))
-          : widget.suffixIcon,
+          suffixIcon: widget.isPassword? IconButton(
+                  onPressed: () {
+                    widget.isObscureText = !widget.isObscureText;
+                    setState(() {});
+          },
+              icon: Icon(widget.isObscureText ?
+              Icons.visibility_off
+                  : Icons.visibility,
+                  color: AppColors.whiteColor)
+          )
+              : widget.suffixIcon,
           enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(16),
               borderSide: BorderSide(
