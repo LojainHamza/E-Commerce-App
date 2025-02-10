@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:e_commerce_app/core/utils/app_assets.dart';
 import 'package:e_commerce_app/core/utils/app_colors.dart';
 import 'package:e_commerce_app/core/utils/app_routes.dart';
@@ -16,7 +15,7 @@ class SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Timer(Duration(seconds: 3), () {
-      Navigator.of(context).pushReplacementNamed(AppRoutes.registerRoute);
+      Navigator.of(context).pushReplacementNamed(AppRoutes.loginRoute);
     });
   }
 
