@@ -44,6 +44,8 @@ dependencies:
   flutter_bloc: ^9.0.0
   injectable: ^2.5.0
   get_it: ^8.0.3
+  flutter_image_slideshow: ^0.1.6
+  cached_network_image: ^3.4.1
 
 dev_dependencies:
   flutter_test:
