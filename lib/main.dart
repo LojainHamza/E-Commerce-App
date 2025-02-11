@@ -1,5 +1,6 @@
 import 'package:e_commerce_app/core/di/di.dart';
 import 'package:e_commerce_app/features/ui/auth/register/register_screen.dart';
+import 'package:e_commerce_app/features/ui/pages/home_screen/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
             AppRoutes.splashScreenRoute: (context) => SplashScreen(),
             AppRoutes.registerRoute: (context) => RegisterScreen(),
             AppRoutes.loginRoute: (context) => LoginScreen(),
-            // AppRoutes.homeRoute: (context) => HomeScreen(),
+            AppRoutes.homeRoute: (context) => HomeScreen(),
             // AppRoutes.productRoute: (context) => ProductDetailsScreen(),
             // AppRoutes.cartRoute: (context) => CartScreen(),
           },
