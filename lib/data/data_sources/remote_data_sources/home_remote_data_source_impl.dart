@@ -3,7 +3,7 @@ import 'package:dartz/dartz.dart';
 import 'package:e_commerce_app/core/api/api_manager.dart';
 import 'package:e_commerce_app/core/api/end_points.dart';
 import 'package:e_commerce_app/core/errors/failures.dart';
-import 'package:e_commerce_app/data/model/CategoryResponseDm.dart';
+import 'package:e_commerce_app/data/model/CategoryOrBrandResponseDm.dart';
 import 'package:e_commerce_app/domain/repositories/data_sources/remote_data_sources/home_remote_data_source.dart';
 import 'package:injectable/injectable.dart';
 
@@ -14,7 +14,7 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
   HomeRemoteDataSourceImpl({required this.apiManager});
 
   @override
-  Future<Either<Failures, CategoryResponseDm>> getAllCategories() async {
+  Future<Either<Failures, CategoryOrBrandResponseDm>> getAllCategories() async {
     try {
       final List<ConnectivityResult> connectivityResult =
           await Connectivity().checkConnectivity();
@@ -23,11 +23,37 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
         //todo: internet
         var response =
             await apiManager.getData(endPoint: EndPoints.getAllCategories);
-        var homeResponse = CategoryResponseDm.fromJson(response.data);
+        var categoryResponse =
+            CategoryOrBrandResponseDm.fromJson(response.data);
         if (response.statusCode! >= 200 && response.statusCode! < 300) {
-          return Right(homeResponse);
+          return Right(categoryResponse);
         } else {
-          return Left(ServerError(errorMessage: homeResponse.message!));
+          return Left(ServerError(errorMessage: categoryResponse.message!));
+        }
+      } else {
+        //todo: no internet
+        return Left(NetworkError(errorMessage: 'No Internet Connection'));
+      }
+    } catch (e) {
+      return Left(ServerError(errorMessage: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failures, CategoryOrBrandResponseDm>> getAllBrands() async {
+    try {
+      final List<ConnectivityResult> connectivityResult =
+          await Connectivity().checkConnectivity();
+      if (connectivityResult.contains(ConnectivityResult.wifi) ||
+          connectivityResult.contains(ConnectivityResult.mobile)) {
+        //todo: internet
+        var response =
+            await apiManager.getData(endPoint: EndPoints.getAllBrands);
+        var brandResponse = CategoryOrBrandResponseDm.fromJson(response.data);
+        if (response.statusCode! >= 200 && response.statusCode! < 300) {
+          return Right(brandResponse);
+        } else {
+          return Left(ServerError(errorMessage: brandResponse.message!));
         }
       } else {
         //todo: no internet

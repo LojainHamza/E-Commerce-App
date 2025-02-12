@@ -1,10 +1,10 @@
-import 'package:e_commerce_app/domain/entities/CategoryResponseEntity.dart';
+import 'package:e_commerce_app/domain/entities/CategoryOrBrandResponseEntity.dart';
 
-class CategoryResponseDm extends CategoryResponseEntity {
+class CategoryOrBrandResponseDm extends CategoryOrBrandResponseEntity {
   String? message;
   String? statusMsg;
 
-  CategoryResponseDm({
+  CategoryOrBrandResponseDm({
     super.results,
     super.metadata,
     super.data,
@@ -12,7 +12,7 @@ class CategoryResponseDm extends CategoryResponseEntity {
     this.statusMsg,
   });
 
-  CategoryResponseDm.fromJson(dynamic json) {
+  CategoryOrBrandResponseDm.fromJson(dynamic json) {
     message = json['message'];
     statusMsg = json['statusMsg'];
     results = json['results'];
@@ -21,14 +21,14 @@ class CategoryResponseDm extends CategoryResponseEntity {
     if (json['data'] != null) {
       data = [];
       json['data'].forEach((v) {
-        data?.add(CategoryDm.fromJson(v));
+        data?.add(CategoryOrBrandDm.fromJson(v));
       });
     }
   }
 }
 
-class CategoryDm extends CategoryEntity {
-  CategoryDm(
+class CategoryOrBrandDm extends CategoryOrBrandEntity {
+  CategoryOrBrandDm(
       {super.id,
       super.name,
       super.slug,
@@ -36,7 +36,7 @@ class CategoryDm extends CategoryEntity {
       this.createdAt,
       this.updatedAt});
 
-  CategoryDm.fromJson(dynamic json) {
+  CategoryOrBrandDm.fromJson(dynamic json) {
     id = json['_id'];
     name = json['name'];
     slug = json['slug'];

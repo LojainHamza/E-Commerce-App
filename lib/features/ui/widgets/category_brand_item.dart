@@ -1,12 +1,12 @@
 import 'package:e_commerce_app/core/utils/app_colors.dart';
 import 'package:e_commerce_app/core/utils/app_styles.dart';
-import 'package:e_commerce_app/domain/entities/CategoryResponseEntity.dart';
+import 'package:e_commerce_app/domain/entities/CategoryOrBrandResponseEntity.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CategoryBrandItem extends StatelessWidget {
-  CategoryEntity item;
+  CategoryOrBrandEntity item;
 
   CategoryBrandItem({required this.item});
 

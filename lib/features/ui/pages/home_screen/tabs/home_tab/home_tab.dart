@@ -2,7 +2,7 @@ import 'package:e_commerce_app/core/di/di.dart';
 import 'package:e_commerce_app/core/utils/app_assets.dart';
 import 'package:e_commerce_app/core/utils/app_colors.dart';
 import 'package:e_commerce_app/core/utils/app_styles.dart';
-import 'package:e_commerce_app/domain/entities/CategoryResponseEntity.dart';
+import 'package:e_commerce_app/domain/entities/CategoryOrBrandResponseEntity.dart';
 import 'package:e_commerce_app/features/ui/pages/home_screen/tabs/home_tab/cubit/home_tab_states.dart';
 import 'package:e_commerce_app/features/ui/pages/home_screen/tabs/home_tab/cubit/home_tab_view_model.dart';
 import 'package:e_commerce_app/features/ui/widgets/category_brand_item.dart';
@@ -17,22 +17,27 @@ class HomeTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: 16.h),
-            buildAnnouncement(
-                images: [
-                  AppAssets.advertisement1,
-                  AppAssets.advertisement2,
-                  AppAssets.advertisement3
-                ]
-            ),
-            SizedBox(height: 24.h),
-            lineBreak(name: 'Categories'),
-        BlocBuilder<HomeTabViewModel, HomeTabStates>(
-            bloc: viewModel..getAllCategories(),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(height: 16.h),
+          buildAnnouncement(
+            images: [
+              AppAssets.advertisement1,
+              AppAssets.advertisement2,
+              AppAssets.advertisement3,
+            ],
+          ),
+          SizedBox(height: 24.h),
+          lineBreak(name: 'Categories'),
+          BlocBuilder<HomeTabViewModel, HomeTabStates>(
+            bloc: viewModel..getAllCategories,
+            buildWhen: (previous, current) {
+              return current is CategoryLoadingState ||
+                  current is CategoryErrorState ||
+                  current is CategorySuccessState;
+            },
             builder: (context, state) {
               if (state is CategoryLoadingState) {
                 return Center(
@@ -45,31 +50,42 @@ class HomeTab extends StatelessWidget {
                     list: state.categoryResponseEntity.data!);
               }
               return Container();
-            }),
-        lineBreak(name: 'Brands'),
-        // buildCategoryBrandSection(CategoryBrandItem()),
-      ],
-        )
+            },
+          ),
+          lineBreak(name: 'Brands'),
+          BlocBuilder<HomeTabViewModel, HomeTabStates>(
+            bloc: viewModel..getAllBrands,
+            buildWhen: (previous, current) {
+              return current is BrandLoadingState ||
+                  current is BrandErrorState ||
+                  current is BrandSuccessState;
+            },
+            builder: (context, state) {
+              if (state is BrandLoadingState) {
+                return Center(child: CircularProgressIndicator(
+                    color: AppColors.primaryColor));
+              } else if (state is BrandErrorState) {
+                return Center(child: Text(state.failures.errorMessage));
+              } else if (state is BrandSuccessState) {
+                return buildCategoryBrandSection(
+                    list: state.brandResponseEntity.data!);
+              }
+              return Container();
+            },
+          ),
+        ],
+      ),
     );
   }
 
   ImageSlideshow buildAnnouncement({required List<String> images}) {
     return ImageSlideshow(
-        indicatorColor: AppColors.primaryColor,
-        initialPage: 0,
-        indicatorBottomPadding: 15.h,
-        indicatorPadding: 8.w,
-        indicatorRadius: 5.r,
-        indicatorBackgroundColor: AppColors.whiteColor,
-        isLoop: true,
-        autoPlayInterval: 3000,
-        height: 190.h,
-        children:
-        images.map((url) {
-          return Image.asset(
-              url,
-              fit: BoxFit.fill);
-        }).toList()
+      indicatorColor: AppColors.primaryColor,
+      initialPage: 0,
+      indicatorBottomPadding: 15.h,
+      indicatorPadding: 8.w,
+      indicatorRadius: 5.0,
+      children: images.map((image) => Image.asset(image)).toList(),
     );
   }
 
@@ -87,7 +103,8 @@ class HomeTab extends StatelessWidget {
     );
   }
 
-  SizedBox buildCategoryBrandSection({required List<CategoryEntity> list}) {
+  SizedBox buildCategoryBrandSection(
+      {required List<CategoryOrBrandEntity> list}) {
     return SizedBox(
       height: 250.h,
       width: double.infinity,
