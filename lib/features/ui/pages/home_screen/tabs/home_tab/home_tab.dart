@@ -1,13 +1,18 @@
+import 'package:e_commerce_app/core/di/di.dart';
 import 'package:e_commerce_app/core/utils/app_assets.dart';
 import 'package:e_commerce_app/core/utils/app_colors.dart';
 import 'package:e_commerce_app/core/utils/app_styles.dart';
+import 'package:e_commerce_app/domain/entities/CategoryResponseEntity.dart';
+import 'package:e_commerce_app/features/ui/pages/home_screen/tabs/home_tab/cubit/home_tab_states.dart';
+import 'package:e_commerce_app/features/ui/pages/home_screen/tabs/home_tab/cubit/home_tab_view_model.dart';
 import 'package:e_commerce_app/features/ui/widgets/category_brand_item.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class HomeTab extends StatelessWidget {
-  const HomeTab({super.key});
+  HomeTabViewModel viewModel = getIt<HomeTabViewModel>();
 
   @override
   Widget build(BuildContext context) {
@@ -26,10 +31,24 @@ class HomeTab extends StatelessWidget {
             ),
             SizedBox(height: 24.h),
             lineBreak(name: 'Categories'),
-            buildCategoryBrandSection(CategoryBrandItem()),
-            lineBreak(name: 'Brands'),
-            buildCategoryBrandSection(CategoryBrandItem()),
-          ],
+        BlocBuilder<HomeTabViewModel, HomeTabStates>(
+            bloc: viewModel..getAllCategories(),
+            builder: (context, state) {
+              if (state is CategoryLoadingState) {
+                return Center(
+                    child: CircularProgressIndicator(
+                        color: AppColors.primaryColor));
+              } else if (state is CategoryErrorState) {
+                return Center(child: Text(state.failures.errorMessage));
+              } else if (state is CategorySuccessState) {
+                return buildCategoryBrandSection(
+                    list: state.categoryResponseEntity.data!);
+              }
+              return Container();
+            }),
+        lineBreak(name: 'Brands'),
+        // buildCategoryBrandSection(CategoryBrandItem()),
+      ],
         )
     );
   }
@@ -68,18 +87,18 @@ class HomeTab extends StatelessWidget {
     );
   }
 
-  SizedBox buildCategoryBrandSection(Widget categoryBrand) {
+  SizedBox buildCategoryBrandSection({required List<CategoryEntity> list}) {
     return SizedBox(
       height: 250.h,
       width: double.infinity,
       child: GridView.builder(
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3, mainAxisSpacing: 16.h, crossAxisSpacing: 10.h),
-          itemCount: 20,
+              crossAxisCount: 2, mainAxisSpacing: 16.h, crossAxisSpacing: 10.h),
+          itemCount: list.length,
           scrollDirection: Axis.horizontal,
           physics: ScrollPhysics(),
           itemBuilder: (context, index) {
-            return categoryBrand;
+            return CategoryBrandItem(item: list[index]);
           }
       ),
     );

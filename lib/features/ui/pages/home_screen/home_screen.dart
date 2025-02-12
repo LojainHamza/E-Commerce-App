@@ -141,7 +141,7 @@ class HomeScreen extends StatelessWidget {
               .whiteColor,
           backgroundColor: isSelected ? AppColors.whiteColor : Colors
               .transparent,
-          radius: 25.r,
+          radius: 22.r,
           child: Image.asset(
               isSelected ? selectedIcon : unSelectedIcon
           ),
