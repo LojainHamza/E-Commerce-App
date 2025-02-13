@@ -1,3 +1,4 @@
+import 'package:e_commerce_app/core/utils/app_assets.dart';
 import 'package:e_commerce_app/domain/entities/CategoryOrBrandResponseEntity.dart';
 import 'package:e_commerce_app/domain/use_cases/get_all_brands_use_case.dart';
 import 'package:e_commerce_app/domain/use_cases/get_all_categories_use_case.dart';
@@ -18,6 +19,11 @@ class HomeTabViewModel extends Cubit<HomeTabStates> {
   // todo: hold data - handle logic
   List<CategoryOrBrandEntity> categoriesList = [];
   List<CategoryOrBrandEntity> brandsList = [];
+  List<String> imagesList = [
+    AppAssets.advertisement1,
+    AppAssets.advertisement2,
+    AppAssets.advertisement3,
+  ];
 
   void getAllCategories() async {
     emit(CategoryLoadingState());

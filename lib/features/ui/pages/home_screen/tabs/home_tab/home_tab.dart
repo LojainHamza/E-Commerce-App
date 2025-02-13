@@ -11,8 +11,20 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class HomeTab extends StatelessWidget {
+class HomeTab extends StatefulWidget {
+  @override
+  State<HomeTab> createState() => _HomeTabState();
+}
+
+class _HomeTabState extends State<HomeTab> {
   HomeTabViewModel viewModel = getIt<HomeTabViewModel>();
+
+  @override
+  void initState() {
+    super.initState();
+    viewModel.getAllCategories();
+    viewModel.getAllBrands();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,11 +35,7 @@ class HomeTab extends StatelessWidget {
         children: [
           SizedBox(height: 16.h),
           buildAnnouncement(
-            images: [
-              AppAssets.advertisement1,
-              AppAssets.advertisement2,
-              AppAssets.advertisement3,
-            ],
+            images: viewModel.imagesList,
           ),
           SizedBox(height: 24.h),
           lineBreak(name: 'Categories'),
@@ -62,8 +70,9 @@ class HomeTab extends StatelessWidget {
             },
             builder: (context, state) {
               if (state is BrandLoadingState) {
-                return Center(child: CircularProgressIndicator(
-                    color: AppColors.primaryColor));
+                return Center(
+                    child: CircularProgressIndicator(
+                        color: AppColors.primaryColor));
               } else if (state is BrandErrorState) {
                 return Center(child: Text(state.failures.errorMessage));
               } else if (state is BrandSuccessState) {
@@ -94,11 +103,11 @@ class HomeTab extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(name, style: AppStyles.medium18darkBlue),
-        TextButton(onPressed: () {
-          // todo: navigate to view all
-        },
-            child: Text('View ALl', style: AppStyles.regular12darkBlue)
-        )
+        TextButton(
+            onPressed: () {
+              // todo: navigate to view all
+            },
+            child: Text('View ALl', style: AppStyles.regular12darkBlue))
       ],
     );
   }
@@ -116,9 +125,7 @@ class HomeTab extends StatelessWidget {
           physics: ScrollPhysics(),
           itemBuilder: (context, index) {
             return CategoryBrandItem(item: list[index]);
-          }
-      ),
+          }),
     );
   }
-
 }
