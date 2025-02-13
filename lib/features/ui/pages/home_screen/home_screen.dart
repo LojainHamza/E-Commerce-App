@@ -92,8 +92,8 @@ class HomeScreen extends StatelessWidget {
             children: [
               Padding(
                 padding: EdgeInsets.only(bottom: 10.h),
-                child: Image.asset(
-                    AppAssets.smallRouteLogo, width: 66.w, height: 22.h),
+                child: Image.asset(AppAssets.smallRouteLogo,
+                    width: 70.w, height: 30.h),
               ),
               Visibility(
                   visible: index != 3,

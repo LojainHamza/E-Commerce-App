@@ -1,5 +1,4 @@
 import 'package:e_commerce_app/core/di/di.dart';
-import 'package:e_commerce_app/core/utils/app_assets.dart';
 import 'package:e_commerce_app/core/utils/app_colors.dart';
 import 'package:e_commerce_app/core/utils/app_styles.dart';
 import 'package:e_commerce_app/domain/entities/CategoryOrBrandResponseEntity.dart';
@@ -33,11 +32,9 @@ class _HomeTabState extends State<HomeTab> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: 16.h),
           buildAnnouncement(
             images: viewModel.imagesList,
           ),
-          SizedBox(height: 24.h),
           lineBreak(name: 'Categories'),
           BlocBuilder<HomeTabViewModel, HomeTabStates>(
             bloc: viewModel..getAllCategories,
@@ -94,6 +91,8 @@ class _HomeTabState extends State<HomeTab> {
       indicatorBottomPadding: 15.h,
       indicatorPadding: 8.w,
       indicatorRadius: 5.0,
+      isLoop: true,
+      autoPlayInterval: 3000,
       children: images.map((image) => Image.asset(image)).toList(),
     );
   }
