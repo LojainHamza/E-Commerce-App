@@ -27,7 +27,7 @@ class ProductTabItem extends StatelessWidget {
                 child: CachedNetworkImage(
                   width: 190.w,
                   height: 120.h,
-                  fit: BoxFit.cover,
+                  fit: BoxFit.fitHeight,
                   imageUrl: product.imageCover ?? '',
                   placeholder: (context, url) => Center(
                       child: CircularProgressIndicator(
