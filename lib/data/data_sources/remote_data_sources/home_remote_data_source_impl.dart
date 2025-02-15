@@ -4,6 +4,7 @@ import 'package:e_commerce_app/core/api/api_manager.dart';
 import 'package:e_commerce_app/core/api/end_points.dart';
 import 'package:e_commerce_app/core/errors/failures.dart';
 import 'package:e_commerce_app/data/model/CategoryOrBrandResponseDm.dart';
+import 'package:e_commerce_app/data/model/ProductResponseDm.dart';
 import 'package:e_commerce_app/domain/repositories/data_sources/remote_data_sources/home_remote_data_source.dart';
 import 'package:injectable/injectable.dart';
 
@@ -35,7 +36,7 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
         return Left(NetworkError(errorMessage: 'No Internet Connection'));
       }
     } catch (e) {
-      return Left(ServerError(errorMessage: e.toString()));
+      return Left(Failures(errorMessage: e.toString()));
     }
   }
 
@@ -60,7 +61,32 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
         return Left(NetworkError(errorMessage: 'No Internet Connection'));
       }
     } catch (e) {
-      return Left(ServerError(errorMessage: e.toString()));
+      return Left(Failures(errorMessage: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failures, ProductResponseDm>> getAllProducts() async {
+    try {
+      final List<ConnectivityResult> connectivityResult =
+          await Connectivity().checkConnectivity();
+      if (connectivityResult.contains(ConnectivityResult.wifi) ||
+          connectivityResult.contains(ConnectivityResult.mobile)) {
+        //todo: internet
+        var response =
+            await apiManager.getData(endPoint: EndPoints.getAllProducts);
+        var productResponse = ProductResponseDm.fromJson(response.data);
+        if (response.statusCode! >= 200 && response.statusCode! < 300) {
+          return Right(productResponse);
+        } else {
+          return Left(ServerError(errorMessage: productResponse.message!));
+        }
+      } else {
+        //todo: no internet
+        return Left(NetworkError(errorMessage: 'No Internet Connection'));
+      }
+    } catch (e) {
+      return Left(Failures(errorMessage: e.toString()));
     }
   }
 }

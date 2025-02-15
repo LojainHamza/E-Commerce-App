@@ -9,7 +9,6 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:e_commerce_app/features/ui/pages/home_screen/tabs/home_tab/cubit/home_tab_view_model.dart';
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 
@@ -27,11 +26,16 @@ import '../../domain/repositories/data_sources/remote_data_sources/home_remote_d
 import '../../domain/repositories/home/home_repository.dart' as _i22;
 import '../../domain/use_cases/get_all_brands_use_case.dart' as _i773;
 import '../../domain/use_cases/get_all_categories_use_case.dart' as _i201;
+import '../../domain/use_cases/get_all_products_use_case.dart' as _i939;
 import '../../domain/use_cases/login_use_case.dart' as _i471;
 import '../../domain/use_cases/register_use_case.dart' as _i479;
 import '../../features/ui/auth/login/cubit/login_view_model.dart' as _i245;
 import '../../features/ui/auth/register/cubit/register_view_model.dart'
     as _i873;
+import '../../features/ui/pages/home_screen/tabs/home_tab/cubit/home_tab_view_model.dart'
+    as _i524;
+import '../../features/ui/pages/home_screen/tabs/product_tab/cubit/product_tab_view_model.dart'
+    as _i13;
 import '../api/api_manager.dart' as _i1047;
 
 extension GetItInjectableX on _i174.GetIt {
@@ -59,16 +63,20 @@ extension GetItInjectableX on _i174.GetIt {
             homeRepository: gh<_i22.HomeRepository>()));
     gh.factory<_i773.GetAllBrandsUseCase>(() =>
         _i773.GetAllBrandsUseCase(homeRepository: gh<_i22.HomeRepository>()));
+    gh.factory<_i939.GetAllProductsUseCase>(() =>
+        _i939.GetAllProductsUseCase(homeRepository: gh<_i22.HomeRepository>()));
     gh.factory<_i471.LoginUseCase>(
         () => _i471.LoginUseCase(authRepository: gh<_i660.AuthRepository>()));
     gh.factory<_i479.RegisterUseCase>(() =>
         _i479.RegisterUseCase(authRepository: gh<_i660.AuthRepository>()));
-    gh.factory<HomeTabViewModel>(() => HomeTabViewModel(
+    gh.factory<_i524.HomeTabViewModel>(() => _i524.HomeTabViewModel(
           getAllCategoriesUseCase: gh<_i201.GetAllCategoriesUseCase>(),
           getAllBrandsUseCase: gh<_i773.GetAllBrandsUseCase>(),
         ));
     gh.factory<_i873.RegisterViewModel>(() =>
         _i873.RegisterViewModel(registerUseCase: gh<_i479.RegisterUseCase>()));
+    gh.factory<_i13.ProductTabViewModel>(() => _i13.ProductTabViewModel(
+        productsUseCase: gh<_i939.GetAllProductsUseCase>()));
     gh.factory<_i245.LoginViewModel>(
         () => _i245.LoginViewModel(loginUseCase: gh<_i471.LoginUseCase>()));
     return this;

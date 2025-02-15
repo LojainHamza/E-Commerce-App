@@ -1,12 +1,15 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:e_commerce_app/core/utils/app_colors.dart';
 import 'package:e_commerce_app/core/utils/app_styles.dart';
+import 'package:e_commerce_app/domain/entities/ProductResponseEntity.dart';
 import 'package:e_commerce_app/features/ui/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ProductTabItem extends StatelessWidget {
-  const ProductTabItem({super.key});
+  ProductEntity product;
+
+  ProductTabItem({required this.product});
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +28,7 @@ class ProductTabItem extends StatelessWidget {
                   width: 190.w,
                   height: 120.h,
                   fit: BoxFit.cover,
-                  imageUrl:
-                      "https://redtape.com/cdn/shop/files/RSO4102_1_c0a68240-77e5-4003-8465-bff2bb2280a7.jpg?v=1738392818",
+                  imageUrl: product.imageCover ?? '',
                   placeholder: (context, url) => Center(
                       child: CircularProgressIndicator(
                           color: AppColors.primaryColor)),
@@ -64,17 +66,17 @@ class ProductTabItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CustomText(
-                    text: 'Nike Air Jordan',
+                    text: product.title ?? '',
                     textStyle: AppStyles.regular14darkBlue),
                 SizedBox(height: 2.h),
                 Row(
                   children: [
                     CustomText(
-                        text: 'EGP 2000',
+                        text: 'EGP ${product.price}',
                         textStyle: AppStyles.regular14darkBlue),
                     SizedBox(width: 8.w),
                     CustomText(
-                        text: 'EGP 1500',
+                        text: 'EGP ${product.price! * 2}',
                         textStyle: AppStyles.regular11Grey
                             .copyWith(decoration: TextDecoration.lineThrough))
                   ],
@@ -83,8 +85,9 @@ class ProductTabItem extends StatelessWidget {
                 Row(
                   children: [
                     CustomText(
-                        text: 'Review (4.6)',
+                        text: 'Review (${product.ratingsAverage})',
                         textStyle: AppStyles.regular12darkBlue),
+                    SizedBox(width: 2.w),
                     Icon(Icons.star, color: AppColors.yellowColor, size: 25.sp),
                     Spacer(flex: 1),
                     InkWell(
