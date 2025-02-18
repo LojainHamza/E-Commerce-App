@@ -11,11 +11,11 @@ class AddCartResponseEntity {
   String? message;
   num? numOfCartItems;
   String? cartId;
-  Data? data;
+  DataEntity? data;
 }
 
-class Data {
-  Data({
+class DataEntity {
+  DataEntity({
     this.id,
     this.cartOwner,
     this.products,
@@ -27,15 +27,15 @@ class Data {
 
   String? id;
   String? cartOwner;
-  List<Products>? products;
+  List<AddProductEntity>? products;
   String? createdAt;
   String? updatedAt;
   num? v;
   num? totalCartPrice;
 }
 
-class Products {
-  Products({
+class AddProductEntity {
+  AddProductEntity({
     this.count,
     this.id,
     this.product,
