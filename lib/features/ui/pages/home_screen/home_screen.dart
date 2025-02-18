@@ -4,6 +4,8 @@ import 'package:e_commerce_app/core/utils/app_routes.dart';
 import 'package:e_commerce_app/core/utils/app_styles.dart';
 import 'package:e_commerce_app/features/ui/pages/home_screen/cubit/home_screen_states.dart';
 import 'package:e_commerce_app/features/ui/pages/home_screen/cubit/home_screen_view_model.dart';
+import 'package:e_commerce_app/features/ui/pages/home_screen/tabs/product_tab/cubit/product_tab_states.dart';
+import 'package:e_commerce_app/features/ui/pages/home_screen/tabs/product_tab/cubit/product_tab_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -135,10 +137,22 @@ class _HomeScreenState extends State<HomeScreen> {
                           onTap: () {
                             Navigator.pushNamed(context, AppRoutes.cartRoute);
                           },
-                          child: Icon(
-                            Icons.shopping_cart,
-                            size: 30.sp,
-                            color: AppColors.primaryColor.withAlpha(200),
+                          child: BlocBuilder<ProductTabViewModel,
+                              ProductTabStates>(
+                            builder: (context, state) {
+                              return Badge(
+                                alignment: AlignmentDirectional.topStart,
+                                backgroundColor: AppColors.greenColor,
+                                label: Text(ProductTabViewModel.get(context)
+                                    .numberOfCartItems
+                                    .toString()),
+                                child: Icon(
+                                  Icons.shopping_cart_outlined,
+                                  size: 32.sp,
+                                  color: AppColors.primaryColor.withAlpha(200),
+                                ),
+                              );
+                            },
                           ),
                         ),
                       ),

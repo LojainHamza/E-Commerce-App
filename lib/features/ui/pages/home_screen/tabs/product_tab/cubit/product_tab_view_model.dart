@@ -17,7 +17,6 @@ class ProductTabViewModel extends Cubit<ProductTabStates> {
   // TODO: Hold data - handle logic
   List<ProductEntity> productsList = [];
   int numberOfCartItems = 0;
-  ProductTabStates? lastToastState;
 
   static ProductTabViewModel get(context) =>
       BlocProvider.of<ProductTabViewModel>(
