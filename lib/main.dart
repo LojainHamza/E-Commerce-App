@@ -1,3 +1,4 @@
+import 'package:e_commerce_app/core/cache/shared_preference_utils.dart';
 import 'package:e_commerce_app/core/di/di.dart';
 import 'package:e_commerce_app/features/ui/auth/login/login_screen.dart';
 import 'package:e_commerce_app/features/ui/auth/register/register_screen.dart';
@@ -12,13 +13,24 @@ import 'core/utils/my_bloc_observer.dart';
 import 'features/ui/pages/product_details/product_details_screen.dart';
 import 'features/ui/splash_screen/splash_screen.dart';
 
-void main(){
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   configureDependencies();
   Bloc.observer = MyBlocObserver();
-  runApp(MyApp());
+  await SharedPreferenceUtils.init();
+  String routeName;
+  var token = SharedPreferenceUtils.getData(key: 'token');
+  if (token == null) {
+    routeName = AppRoutes.loginRoute;
+  } else {
+    routeName = AppRoutes.homeRoute;
+  }
+  runApp(MyApp(routeName: routeName));
 }
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  String routeName;
+
+  MyApp({super.key, required this.routeName});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +41,7 @@ class MyApp extends StatelessWidget {
       builder: (context, child) {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
-          initialRoute: AppRoutes.homeRoute,
+          initialRoute: routeName,
           routes: {
             AppRoutes.splashScreenRoute: (context) => SplashScreen(),
             AppRoutes.registerRoute: (context) => RegisterScreen(),

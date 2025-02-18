@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:e_commerce_app/core/cache/shared_preference_utils.dart';
 import 'package:e_commerce_app/core/di/di.dart';
 import 'package:e_commerce_app/core/utils/app_assets.dart';
 import 'package:e_commerce_app/core/utils/app_colors.dart';
@@ -12,6 +13,7 @@ import 'package:e_commerce_app/features/ui/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'cubit/login_states.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -45,6 +47,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 title: 'Success',
                 posActionName: 'Ok',
                 posAction: () {
+                  // TODO: save token
+                  SharedPreferenceUtils.saveData(
+                      key: 'token', value: state.responseEntity.token);
                   Navigator.of(context)
                       .pushReplacementNamed(AppRoutes.homeRoute);
                 });

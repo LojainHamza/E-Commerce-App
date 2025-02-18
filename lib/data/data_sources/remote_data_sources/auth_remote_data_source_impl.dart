@@ -5,7 +5,6 @@ import 'package:e_commerce_app/core/api/end_points.dart';
 import 'package:e_commerce_app/core/errors/failures.dart';
 import 'package:e_commerce_app/data/model/LoginResponseDM.dart';
 import 'package:e_commerce_app/data/model/RegisterResponseDM.dart';
-import 'package:e_commerce_app/domain/entities/RegisterResponseEntity.dart';
 import 'package:e_commerce_app/domain/repositories/data_sources/remote_data_sources/auth_remote_data_source.dart';
 import 'package:injectable/injectable.dart';
 
@@ -62,6 +61,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource{
         });
         var loginResponse = LoginResponseDm.fromJson(response.data);
         if (response.statusCode! >= 200 && response.statusCode! < 300) {
+          // TODO: save token
+          // SharedPreferenceUtils.saveData(key: 'token', value: loginResponse.token);
           return Right(loginResponse);
         } else {
           return Left(ServerError(errorMessage: loginResponse.message!));
