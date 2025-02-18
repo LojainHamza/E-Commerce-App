@@ -1,5 +1,6 @@
 import 'package:e_commerce_app/core/utils/app_assets.dart';
 import 'package:e_commerce_app/core/utils/app_colors.dart';
+import 'package:e_commerce_app/core/utils/app_routes.dart';
 import 'package:e_commerce_app/core/utils/app_styles.dart';
 import 'package:e_commerce_app/features/ui/pages/home_screen/cubit/home_screen_states.dart';
 import 'package:e_commerce_app/features/ui/pages/home_screen/cubit/home_screen_view_model.dart';
@@ -7,9 +8,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   HomeScreen({super.key});
 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   HomeScreenViewModel viewModel = HomeScreenViewModel();
 
   @override
@@ -86,49 +92,63 @@ class HomeScreen extends StatelessWidget {
       toolbarHeight: index != 3 ? 120.h : kToolbarHeight,
       leadingWidth: double.infinity,
       leading: Padding(
-          padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: EdgeInsets.only(bottom: 10.h),
-                child: Image.asset(AppAssets.smallRouteLogo,
-                    width: 70.w, height: 30.h),
-              ),
-              Visibility(
-                  visible: index != 3,
-                  child: Expanded(
-                      child: Row(
-                        children: [
-                          Expanded(
-                              child: TextField(
-                                style: AppStyles.regular14darkBlue,
-                                cursorColor: AppColors.primaryColor,
-                                onTap: () {
-                                  // todo: implement search logic
-                                },
-                                decoration: InputDecoration(
-                                    border: buildCustomBorder(),
-                                    focusedBorder: buildCustomBorder(),
-                                    contentPadding: EdgeInsets.all(16.h),
-                                    hintText: 'What Do You Search For ?',
-                                    hintStyle: AppStyles.light14Grey,
-                                    prefixIcon: Icon(
-                                      Icons.search,
-                                      size: 30.sp,
-                                      color: AppColors.primaryColor.withAlpha(
-                                          160),
-                                    )
-                                ),
-                              )
+        padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: EdgeInsets.only(bottom: 10.h),
+              child: Image.asset(AppAssets.smallRouteLogo,
+                  width: 70.w, height: 30.h),
+            ),
+            Visibility(
+              visible: index != 3,
+              child: Expanded(
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        style: AppStyles.regular14darkBlue,
+                        cursorColor: AppColors.primaryColor,
+                        onTap: () {
+                          // todo: implement search logic
+                        },
+                        decoration: InputDecoration(
+                          border: buildCustomBorder(),
+                          focusedBorder: buildCustomBorder(),
+                          contentPadding: EdgeInsets.all(16.h),
+                          hintText: 'What Do You Search For ?',
+                          hintStyle: AppStyles.light14Grey,
+                          prefixIcon: Icon(
+                            Icons.search,
+                            size: 30.sp,
+                            color: AppColors.primaryColor.withAlpha(160),
                           ),
-
-                        ],
-                      )
-                  )
-              )
-            ],
-          )
+                        ),
+                      ),
+                    ),
+                    Visibility(
+                      visible: index != 3,
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 8.w),
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.pushNamed(context, AppRoutes.cartRoute);
+                          },
+                          child: Icon(
+                            Icons.shopping_cart,
+                            size: 30.sp,
+                            color: AppColors.primaryColor.withAlpha(200),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

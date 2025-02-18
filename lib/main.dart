@@ -4,6 +4,7 @@ import 'package:e_commerce_app/features/ui/auth/login/login_screen.dart';
 import 'package:e_commerce_app/features/ui/auth/register/register_screen.dart';
 import 'package:e_commerce_app/features/ui/pages/cart_screen/cart_screen.dart';
 import 'package:e_commerce_app/features/ui/pages/home_screen/home_screen.dart';
+import 'package:e_commerce_app/features/ui/pages/home_screen/tabs/product_tab/cubit/product_tab_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -25,7 +26,9 @@ void main() async {
   } else {
     routeName = AppRoutes.homeRoute;
   }
-  runApp(MyApp(routeName: routeName));
+  runApp(MultiBlocProvider(providers: [
+    BlocProvider(create: (context) => getIt<ProductTabViewModel>()),
+  ], child: MyApp(routeName: routeName)));
 }
 class MyApp extends StatelessWidget {
   String routeName;

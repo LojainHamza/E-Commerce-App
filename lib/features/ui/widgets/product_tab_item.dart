@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:e_commerce_app/core/utils/app_colors.dart';
 import 'package:e_commerce_app/core/utils/app_styles.dart';
 import 'package:e_commerce_app/domain/entities/ProductResponseEntity.dart';
+import 'package:e_commerce_app/features/ui/pages/home_screen/tabs/product_tab/cubit/product_tab_view_model.dart';
 import 'package:e_commerce_app/features/ui/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -94,6 +95,8 @@ class ProductTabItem extends StatelessWidget {
                       splashColor: Colors.transparent,
                       onTap: () {
                         // TODO: add to cart
+                        ProductTabViewModel.get(context)
+                            .addToCart(product.id ?? '');
                       },
                       child: Icon(Icons.add_circle,
                           color: AppColors.primaryColor, size: 32.sp),

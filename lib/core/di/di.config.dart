@@ -24,6 +24,7 @@ import '../../domain/repositories/data_sources/remote_data_sources/auth_remote_d
 import '../../domain/repositories/data_sources/remote_data_sources/home_remote_data_source.dart'
     as _i923;
 import '../../domain/repositories/home/home_repository.dart' as _i22;
+import '../../domain/use_cases/add_to_cart_use_case.dart' as _i1024;
 import '../../domain/use_cases/get_all_brands_use_case.dart' as _i773;
 import '../../domain/use_cases/get_all_categories_use_case.dart' as _i201;
 import '../../domain/use_cases/get_all_products_use_case.dart' as _i939;
@@ -58,11 +59,13 @@ extension GetItInjectableX on _i174.GetIt {
         homeRemoteDataSource: gh<_i923.HomeRemoteDataSource>()));
     gh.factory<_i660.AuthRepository>(() => _i895.AuthRepositoryImpl(
         authRemoteDataSource: gh<_i327.AuthRemoteDataSource>()));
+    gh.factory<_i1024.AddToCartUseCase>(() =>
+        _i1024.AddToCartUseCase(homeRepository: gh<_i22.HomeRepository>()));
+    gh.factory<_i773.GetAllBrandsUseCase>(() =>
+        _i773.GetAllBrandsUseCase(homeRepository: gh<_i22.HomeRepository>()));
     gh.factory<_i201.GetAllCategoriesUseCase>(() =>
         _i201.GetAllCategoriesUseCase(
             homeRepository: gh<_i22.HomeRepository>()));
-    gh.factory<_i773.GetAllBrandsUseCase>(() =>
-        _i773.GetAllBrandsUseCase(homeRepository: gh<_i22.HomeRepository>()));
     gh.factory<_i939.GetAllProductsUseCase>(() =>
         _i939.GetAllProductsUseCase(homeRepository: gh<_i22.HomeRepository>()));
     gh.factory<_i471.LoginUseCase>(
@@ -75,10 +78,12 @@ extension GetItInjectableX on _i174.GetIt {
         ));
     gh.factory<_i873.RegisterViewModel>(() =>
         _i873.RegisterViewModel(registerUseCase: gh<_i479.RegisterUseCase>()));
-    gh.factory<_i13.ProductTabViewModel>(() => _i13.ProductTabViewModel(
-        productsUseCase: gh<_i939.GetAllProductsUseCase>()));
     gh.factory<_i245.LoginViewModel>(
         () => _i245.LoginViewModel(loginUseCase: gh<_i471.LoginUseCase>()));
+    gh.factory<_i13.ProductTabViewModel>(() => _i13.ProductTabViewModel(
+          productsUseCase: gh<_i939.GetAllProductsUseCase>(),
+          addToCartUseCase: gh<_i1024.AddToCartUseCase>(),
+        ));
     return this;
   }
 }
