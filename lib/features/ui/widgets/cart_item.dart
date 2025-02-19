@@ -1,17 +1,15 @@
-import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:e_commerce_app/core/utils/app_colors.dart';
 import 'package:e_commerce_app/core/utils/app_styles.dart';
+import 'package:e_commerce_app/domain/entities/GetCartResponseEntity.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class CartItem extends StatefulWidget {
-  @override
-  State<CartItem> createState() => _CartItemState();
-}
+class CartItem extends StatelessWidget {
+  GetProductEntity productItem;
 
-class _CartItemState extends State<CartItem> {
-  int productCounter = 1;
+  CartItem({required this.productItem});
 
   @override
   Widget build(BuildContext context) {
@@ -23,10 +21,25 @@ class _CartItemState extends State<CartItem> {
             border: Border.all(color: AppColors.greyColor, width: 2)),
         child: Row(
           children: [
-            Image.network(
-              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbsjnjcFxXYIJw2iUZyXcD5OjUNCfEQ6Jk0A&s',
-              width: 135.w,
-              height: 135.h,
+            CachedNetworkImage(
+              width: 130.w,
+              height: 145.h,
+              fit: BoxFit.cover,
+              imageUrl: productItem.product?.imageCover ?? '',
+              imageBuilder: (context, imageProvider) {
+                return CircleAvatar(
+                  backgroundImage: imageProvider,
+                  radius: 10.r,
+                );
+              },
+              placeholder: (context, url) {
+                return Center(
+                    child: CircularProgressIndicator(
+                        color: AppColors.primaryColor));
+              },
+              errorWidget: (context, url, error) {
+                return Icon(Icons.error, color: AppColors.redColor);
+              },
             ),
             SizedBox(width: 16.w),
             Expanded(
@@ -36,8 +49,11 @@ class _CartItemState extends State<CartItem> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Nike Air Jordon',
-                          style: AppStyles.medium18darkBlue),
+                      Expanded(
+                        child: Text(productItem.product?.title ?? '',
+                            style: AppStyles.medium18darkBlue,
+                            overflow: TextOverflow.ellipsis),
+                      ),
                       IconButton(
                           onPressed: () {}, icon: Icon(CupertinoIcons.delete))
                     ],
@@ -53,7 +69,8 @@ class _CartItemState extends State<CartItem> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('EGP 3,500', style: AppStyles.medium18darkBlue),
+                      Text('EGP ${productItem.price?.toDouble() ?? 0}',
+                          style: AppStyles.medium18darkBlue),
                       Padding(
                         padding: EdgeInsets.symmetric(
                             vertical: 8.h, horizontal: 8.w),
@@ -65,28 +82,16 @@ class _CartItemState extends State<CartItem> {
                               color: AppColors.primaryColor),
                           child: Row(
                             children: [
-                              InkWell(
-                                onTap: () {
-                                  productCounter--;
-                                  setState(() {});
-                                },
-                                child: Icon(Icons.remove_circle_outline,
-                                    size: 20.sp, color: AppColors.whiteColor),
-                              ),
+                              Icon(Icons.remove_circle_outline,
+                                  size: 20.sp, color: AppColors.whiteColor),
                               SizedBox(width: 18.w),
-                              AutoSizeText(
-                                '$productCounter',
+                              Text(
+                                productItem.count?.toString() ?? '',
                                 style: AppStyles.medium20White,
                               ),
                               SizedBox(width: 18.w),
-                              InkWell(
-                                onTap: () {
-                                  productCounter++;
-                                  setState(() {});
-                                },
-                                child: Icon(Icons.add_circle_outline,
-                                    size: 20.sp, color: AppColors.whiteColor),
-                              ),
+                              Icon(Icons.add_circle_outline,
+                                  size: 20.sp, color: AppColors.whiteColor),
                             ],
                           ),
                         ),
