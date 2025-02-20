@@ -1,7 +1,7 @@
 import 'package:e_commerce_app/domain/entities/ProductResponseEntity.dart';
 
-class GetCartResponseEntity {
-  GetCartResponseEntity({
+class CartResponseEntity {
+  CartResponseEntity({
     this.status,
     this.numOfCartItems,
     this.cartId,
@@ -11,11 +11,11 @@ class GetCartResponseEntity {
   String? status;
   num? numOfCartItems;
   String? cartId;
-  GetDataEntity? data;
+  CartDataEntity? data;
 }
 
-class GetDataEntity {
-  GetDataEntity({
+class CartDataEntity {
+  CartDataEntity({
     this.id,
     this.cartOwner,
     this.products,
@@ -27,15 +27,15 @@ class GetDataEntity {
 
   String? id;
   String? cartOwner;
-  List<GetProductEntity>? products;
+  List<CartProductEntity>? products;
   String? createdAt;
   String? updatedAt;
   num? v;
   num? totalCartPrice;
 }
 
-class GetProductEntity {
-  GetProductEntity({
+class CartProductEntity {
+  CartProductEntity({
     this.count,
     this.id,
     this.product,

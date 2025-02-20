@@ -1,18 +1,18 @@
 import 'package:e_commerce_app/core/errors/failures.dart';
-import 'package:e_commerce_app/domain/entities/GetCartResponseEntity.dart';
+import 'package:e_commerce_app/domain/entities/CartResponseEntity.dart';
 
 abstract class CartStates {}
 
-class GetCartLoadingState implements CartStates {}
+class CartLoadingState implements CartStates {}
 
-class GetCartErrorState implements CartStates {
+class CartErrorState implements CartStates {
   Failures failures;
 
-  GetCartErrorState({required this.failures});
+  CartErrorState({required this.failures});
 }
 
-class GetCartSuccessState implements CartStates {
-  GetCartResponseEntity responseEntity;
+class CartSuccessState implements CartStates {
+  CartResponseEntity responseEntity;
 
-  GetCartSuccessState({required this.responseEntity});
+  CartSuccessState({required this.responseEntity});
 }

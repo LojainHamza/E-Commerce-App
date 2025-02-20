@@ -1,13 +1,15 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:e_commerce_app/core/utils/app_colors.dart';
 import 'package:e_commerce_app/core/utils/app_styles.dart';
-import 'package:e_commerce_app/domain/entities/GetCartResponseEntity.dart';
+import 'package:e_commerce_app/core/utils/flutter_toast.dart';
+import 'package:e_commerce_app/domain/entities/CartResponseEntity.dart';
+import 'package:e_commerce_app/features/ui/pages/cart_screen/cubit/cart_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CartItem extends StatelessWidget {
-  GetProductEntity productItem;
+  CartProductEntity productItem;
 
   CartItem({required this.productItem});
 
@@ -55,7 +57,15 @@ class CartItem extends StatelessWidget {
                             overflow: TextOverflow.ellipsis),
                       ),
                       IconButton(
-                          onPressed: () {}, icon: Icon(CupertinoIcons.delete))
+                          onPressed: () {
+                            ToastMessage.toastMessage(
+                                msg: 'Item deleted successfully',
+                                backgroundColor: AppColors.greenColor,
+                                textColor: AppColors.whiteColor);
+                            CartViewModel.get(context).deleteItemsInCart(
+                                productItem.product?.id ?? '');
+                          },
+                          icon: Icon(CupertinoIcons.delete))
                     ],
                   ),
                   Row(

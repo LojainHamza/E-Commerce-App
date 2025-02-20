@@ -1,8 +1,8 @@
 import 'package:e_commerce_app/data/model/ProductResponseDm.dart';
-import 'package:e_commerce_app/domain/entities/GetCartResponseEntity.dart';
+import 'package:e_commerce_app/domain/entities/CartResponseEntity.dart';
 
-class GetCartResponseDm extends GetCartResponseEntity {
-  GetCartResponseDm({
+class CartResponseDm extends CartResponseEntity {
+  CartResponseDm({
     this.statusMsg,
     this.message,
     super.status,
@@ -11,21 +11,21 @@ class GetCartResponseDm extends GetCartResponseEntity {
     super.data,
   });
 
-  GetCartResponseDm.fromJson(dynamic json) {
+  CartResponseDm.fromJson(dynamic json) {
     statusMsg = json['statusMsg'];
     message = json['message'];
     status = json['status'];
     numOfCartItems = json['numOfCartItems'];
     cartId = json['cartId'];
-    data = json['data'] != null ? GetDataDm.fromJson(json['data']) : null;
+    data = json['data'] != null ? CartDataDm.fromJson(json['data']) : null;
   }
 
   String? message;
   String? statusMsg;
 }
 
-class GetDataDm extends GetDataEntity {
-  GetDataDm({
+class CartDataDm extends CartDataEntity {
+  CartDataDm({
     super.id,
     super.cartOwner,
     super.products,
@@ -35,13 +35,13 @@ class GetDataDm extends GetDataEntity {
     super.totalCartPrice,
   });
 
-  GetDataDm.fromJson(dynamic json) {
+  CartDataDm.fromJson(dynamic json) {
     id = json['_id'];
     cartOwner = json['cartOwner'];
     if (json['products'] != null) {
       products = [];
       json['products'].forEach((v) {
-        products?.add(GetProductDm.fromJson(v));
+        products?.add(CartProductDm.fromJson(v));
       });
     }
     createdAt = json['createdAt'];
@@ -51,15 +51,15 @@ class GetDataDm extends GetDataEntity {
   }
 }
 
-class GetProductDm extends GetProductEntity {
-  GetProductDm({
+class CartProductDm extends CartProductEntity {
+  CartProductDm({
     super.count,
     super.id,
     super.product,
     super.price,
   });
 
-  GetProductDm.fromJson(dynamic json) {
+  CartProductDm.fromJson(dynamic json) {
     count = json['count'];
     id = json['_id'];
     product =

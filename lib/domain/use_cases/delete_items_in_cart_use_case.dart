@@ -5,12 +5,12 @@ import 'package:e_commerce_app/domain/repositories/cart/cart_repository.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
-class GetItemsInCartUseCase {
+class DeleteItemsInCartUseCase {
   CartRepository cartRepository;
 
-  GetItemsInCartUseCase({required this.cartRepository});
+  DeleteItemsInCartUseCase({required this.cartRepository});
 
-  Future<Either<Failures, CartResponseEntity>> invoke() {
-    return cartRepository.getItemInCart();
+  Future<Either<Failures, CartResponseEntity>> invoke(String productId) {
+    return cartRepository.deleteItemsInCart(productId);
   }
 }

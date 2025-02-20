@@ -1,4 +1,3 @@
-import 'package:e_commerce_app/core/di/di.dart';
 import 'package:e_commerce_app/core/utils/app_colors.dart';
 import 'package:e_commerce_app/core/utils/app_styles.dart';
 import 'package:e_commerce_app/features/ui/pages/cart_screen/cubit/cart_states.dart';
@@ -9,7 +8,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CartScreen extends StatelessWidget {
-  CartViewModel viewModel = getIt<CartViewModel>();
 
   @override
   Widget build(BuildContext context) {
@@ -32,9 +30,9 @@ class CartScreen extends StatelessWidget {
         ],
       ),
       body: BlocBuilder<CartViewModel, CartStates>(
-        bloc: viewModel..getItemsInCart(),
+        bloc: CartViewModel.get(context)..getItemsInCart(),
         builder: (context, state) {
-          if (state is GetCartSuccessState) {
+          if (state is CartSuccessState) {
             return Column(
               children: [
                 Expanded(
@@ -90,7 +88,7 @@ class CartScreen extends StatelessWidget {
                 ),
               ],
             );
-          } else if (state is GetCartErrorState) {
+          } else if (state is CartErrorState) {
             return Center(
                 child: Text(state.failures.errorMessage,
                     style: AppStyles.medium18darkBlue));
