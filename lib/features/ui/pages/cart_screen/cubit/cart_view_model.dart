@@ -1,6 +1,7 @@
 import 'package:e_commerce_app/domain/entities/CartResponseEntity.dart';
 import 'package:e_commerce_app/domain/use_cases/delete_items_in_cart_use_case.dart';
 import 'package:e_commerce_app/domain/use_cases/get_items_in_cart_use_case.dart';
+import 'package:e_commerce_app/domain/use_cases/update_count_in_cart_use_case.dart';
 import 'package:e_commerce_app/features/ui/pages/cart_screen/cubit/cart_states.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
@@ -9,10 +10,12 @@ import 'package:injectable/injectable.dart';
 class CartViewModel extends Cubit<CartStates> {
   GetItemsInCartUseCase getItemsInCartUseCase;
   DeleteItemsInCartUseCase deleteItemsInCartUseCase;
+  UpdateCountInCartUseCase updateCountInCartUseCase;
 
   CartViewModel(
       {required this.getItemsInCartUseCase,
-      required this.deleteItemsInCartUseCase})
+      required this.deleteItemsInCartUseCase,
+      required this.updateCountInCartUseCase})
       : super(CartLoadingState());
 
   // TODO: hold data - handle logic
@@ -33,6 +36,16 @@ class CartViewModel extends Cubit<CartStates> {
 
   void deleteItemsInCart(String productId) async {
     var either = await deleteItemsInCartUseCase.invoke(productId);
+    either.fold((error) {
+      emit(CartErrorState(failures: error));
+    }, (response) {
+      // productsList = response.data!.products!;
+      emit(CartSuccessState(responseEntity: response));
+    });
+  }
+
+  void updateCountInCart(String productId, int count) async {
+    var either = await updateCountInCartUseCase.invoke(productId, count);
     either.fold((error) {
       emit(CartErrorState(failures: error));
     }, (response) {

@@ -92,16 +92,42 @@ class CartItem extends StatelessWidget {
                               color: AppColors.primaryColor),
                           child: Row(
                             children: [
-                              Icon(Icons.remove_circle_outline,
-                                  size: 20.sp, color: AppColors.whiteColor),
+                              InkWell(
+                                onTap: () {
+                                  ToastMessage.toastMessage(
+                                      msg:
+                                          'Item count decremented successfully',
+                                      backgroundColor: AppColors.greenColor,
+                                      textColor: AppColors.whiteColor);
+                                  int count = productItem.count!.toInt();
+                                  count--;
+                                  CartViewModel.get(context).updateCountInCart(
+                                      productItem.product?.id ?? '', count);
+                                },
+                                child: Icon(Icons.remove_circle_outline,
+                                    size: 20.sp, color: AppColors.whiteColor),
+                              ),
                               SizedBox(width: 18.w),
                               Text(
                                 productItem.count?.toString() ?? '',
                                 style: AppStyles.medium20White,
                               ),
                               SizedBox(width: 18.w),
-                              Icon(Icons.add_circle_outline,
-                                  size: 20.sp, color: AppColors.whiteColor),
+                              InkWell(
+                                onTap: () {
+                                  ToastMessage.toastMessage(
+                                      msg:
+                                          'Item count incremented successfully',
+                                      backgroundColor: AppColors.greenColor,
+                                      textColor: AppColors.whiteColor);
+                                  int count = productItem.count!.toInt();
+                                  count++;
+                                  CartViewModel.get(context).updateCountInCart(
+                                      productItem.product?.id ?? '', count);
+                                },
+                                child: Icon(Icons.add_circle_outline,
+                                    size: 20.sp, color: AppColors.whiteColor),
+                              ),
                             ],
                           ),
                         ),

@@ -67,4 +67,33 @@ class CartRemoteDataSourceImpl implements CartRemoteDataSource {
       return Left(Failures(errorMessage: e.toString()));
     }
   }
+
+  @override
+  Future<Either<Failures, CartResponseDm>> updateCountInCart(
+      String productId, int count) async {
+    try {
+      final List<ConnectivityResult> connectivityResult =
+          await Connectivity().checkConnectivity();
+      if (connectivityResult.contains(ConnectivityResult.wifi) ||
+          connectivityResult.contains(ConnectivityResult.mobile)) {
+        //todo: internet
+        var token = SharedPreferenceUtils.getData(key: 'token');
+        var response = await apiManager.updateData(
+            endPoint: '${EndPoints.addProductToCart}/$productId',
+            headers: {'token': token},
+            body: {'count': '$count'});
+        var updateCountResponse = CartResponseDm.fromJson(response.data);
+        if (response.statusCode! >= 200 && response.statusCode! < 300) {
+          return Right(updateCountResponse);
+        } else {
+          return Left(ServerError(errorMessage: updateCountResponse.message!));
+        }
+      } else {
+        //todo: no internet
+        return Left(NetworkError(errorMessage: 'No Internet Connection'));
+      }
+    } catch (e) {
+      return Left(Failures(errorMessage: e.toString()));
+    }
+  }
 }

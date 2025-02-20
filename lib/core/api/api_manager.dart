@@ -42,4 +42,16 @@ https://ecommerce.routemisr.com/api/v1/auth/signup
         queryParameters: queryParameters,
         options: Options(validateStatus: (status) => true, headers: headers));
   }
+
+  Future<Response> updateData(
+      {required String endPoint,
+      Map<String, dynamic>? queryParameters,
+      Options? options,
+      Object? body,
+      Map<String, dynamic>? headers}) {
+    return dio.put(ApiConstants.baseUrl + endPoint,
+        data: body,
+        queryParameters: queryParameters,
+        options: Options(validateStatus: (status) => true, headers: headers));
+  }
 }
