@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:e_commerce_app/core/cache/shared_preference_utils.dart';
 import 'package:e_commerce_app/core/utils/app_colors.dart';
 import 'package:e_commerce_app/core/utils/app_styles.dart';
 import 'package:e_commerce_app/domain/entities/ProductResponseEntity.dart';
@@ -7,10 +8,31 @@ import 'package:e_commerce_app/features/ui/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class ProductTabItem extends StatelessWidget {
+class ProductTabItem extends StatefulWidget {
   ProductEntity product;
 
   ProductTabItem({required this.product});
+
+  @override
+  State<ProductTabItem> createState() => _ProductTabItemState();
+}
+
+class _ProductTabItemState extends State<ProductTabItem> {
+  bool isFavorite = false;
+
+  @override
+  void initState() {
+    super.initState();
+    loadFavoriteStatus();
+  }
+
+  void loadFavoriteStatus() async {
+    final status = await SharedPreferenceUtils.getData(
+        key: 'isFavorite_${widget.product.id}');
+    setState(() {
+      isFavorite = status as bool? ?? false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +51,7 @@ class ProductTabItem extends StatelessWidget {
                   width: 190.w,
                   height: 120.h,
                   fit: BoxFit.fitHeight,
-                  imageUrl: product.imageCover ?? '',
+                  imageUrl: widget.product.imageCover ?? '',
                   placeholder: (context, url) => Center(
                       child: CircularProgressIndicator(
                           color: AppColors.primaryColor)),
@@ -48,11 +70,16 @@ class ProductTabItem extends StatelessWidget {
                         color: AppColors.primaryColor,
                         padding: EdgeInsets.zero,
                         iconSize: 30.r,
-                        onPressed: () {
-                          //TODO: add to favorites
+                        onPressed: () async {
+                          setState(() {
+                            isFavorite = !isFavorite;
+                          });
+                          await SharedPreferenceUtils.saveData(
+                              key: 'isFavorite_${widget.product.id}',
+                              value: isFavorite);
                         },
                         icon: Icon(
-                          Icons.favorite_border,
+                          isFavorite ? Icons.favorite : Icons.favorite_border,
                           color: AppColors.primaryColor,
                         ),
                       ),
@@ -67,17 +94,17 @@ class ProductTabItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CustomText(
-                    text: product.title ?? '',
+                    text: widget.product.title ?? '',
                     textStyle: AppStyles.regular14darkBlue),
                 SizedBox(height: 2.h),
                 Row(
                   children: [
                     CustomText(
-                        text: 'EGP ${product.price}',
+                        text: 'EGP ${widget.product.price}',
                         textStyle: AppStyles.regular14darkBlue),
                     SizedBox(width: 8.w),
                     CustomText(
-                        text: 'EGP ${product.price! * 2}',
+                        text: 'EGP ${widget.product.price! * 2}',
                         textStyle: AppStyles.regular11Grey
                             .copyWith(decoration: TextDecoration.lineThrough))
                   ],
@@ -86,7 +113,7 @@ class ProductTabItem extends StatelessWidget {
                 Row(
                   children: [
                     CustomText(
-                        text: 'Review (${product.ratingsAverage})',
+                        text: 'Review (${widget.product.ratingsAverage})',
                         textStyle: AppStyles.regular12darkBlue),
                     SizedBox(width: 2.w),
                     Icon(Icons.star, color: AppColors.yellowColor, size: 25.sp),
@@ -96,7 +123,7 @@ class ProductTabItem extends StatelessWidget {
                       onTap: () {
                         // TODO: add to cart
                         ProductTabViewModel.get(context)
-                            .addToCart(product.id ?? '');
+                            .addToCart(widget.product.id ?? '');
                       },
                       child: Icon(Icons.add_circle,
                           color: AppColors.primaryColor, size: 32.sp),
