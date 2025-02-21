@@ -22,7 +22,7 @@ class CartScreen extends StatelessWidget {
             children: [
               Icon(Icons.search, color: AppColors.primaryColor, size: 30.sp),
               SizedBox(width: 10.w),
-              Icon(Icons.shopping_cart,
+              Icon(Icons.shopping_cart_outlined,
                   color: AppColors.primaryColor, size: 30.sp),
               SizedBox(width: 10.w),
             ],
