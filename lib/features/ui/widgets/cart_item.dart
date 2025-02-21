@@ -24,13 +24,13 @@ class CartItem extends StatelessWidget {
         child: Row(
           children: [
             CachedNetworkImage(
-              width: 130.w,
+              width: 135.w,
               height: 145.h,
               fit: BoxFit.cover,
               imageUrl: productItem.product?.imageCover ?? '',
-              imageBuilder: (context, imageProvider) {
+              imageBuilder: (context, url) {
                 return CircleAvatar(
-                  backgroundImage: imageProvider,
+                  backgroundImage: url,
                   radius: 10.r,
                 );
               },
