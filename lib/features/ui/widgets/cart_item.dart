@@ -29,15 +29,21 @@ class CartItem extends StatelessWidget {
               fit: BoxFit.cover,
               imageUrl: productItem.product?.imageCover ?? '',
               imageBuilder: (context, url) {
-                return CircleAvatar(
-                  backgroundImage: url,
-                  radius: 10.r,
+                return Container(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: url,
+                      fit: BoxFit.cover,
+                    ),
+                    borderRadius: BorderRadius.circular(10.r),
+                  ),
                 );
               },
               placeholder: (context, url) {
                 return Center(
-                    child: CircularProgressIndicator(
-                        color: AppColors.primaryColor));
+                  child:
+                      CircularProgressIndicator(color: AppColors.primaryColor),
+                );
               },
               errorWidget: (context, url, error) {
                 return Icon(Icons.error, color: AppColors.redColor);
