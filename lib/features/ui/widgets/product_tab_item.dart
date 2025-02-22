@@ -2,7 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:e_commerce_app/core/cache/shared_preference_utils.dart';
 import 'package:e_commerce_app/core/utils/app_colors.dart';
 import 'package:e_commerce_app/core/utils/app_styles.dart';
+import 'package:e_commerce_app/core/utils/flutter_toast.dart';
 import 'package:e_commerce_app/domain/entities/ProductResponseEntity.dart';
+import 'package:e_commerce_app/features/ui/pages/home_screen/tabs/favorite_tab/cubit/favorite_tab_view_model.dart';
 import 'package:e_commerce_app/features/ui/pages/home_screen/tabs/product_tab/cubit/product_tab_view_model.dart';
 import 'package:e_commerce_app/features/ui/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
@@ -77,6 +79,22 @@ class _ProductTabItemState extends State<ProductTabItem> {
                           await SharedPreferenceUtils.saveData(
                               key: 'isFavorite_${widget.product.id}',
                               value: isFavorite);
+                          if (isFavorite) {
+                            await FavoriteTabViewModel.get(context)
+                                .addProductToWishlist(widget.product.id ?? '');
+                            ToastMessage.toastMessage(
+                                msg: 'Product added to your wishlist',
+                                backgroundColor: AppColors.greenColor,
+                                textColor: AppColors.whiteColor);
+                          } else {
+                            await FavoriteTabViewModel.get(context)
+                                .removeProductFromWishlist(
+                                    widget.product.id ?? '');
+                            ToastMessage.toastMessage(
+                                msg: 'Product removed from your wishlist',
+                                backgroundColor: AppColors.greenColor,
+                                textColor: AppColors.whiteColor);
+                          }
                         },
                         icon: Icon(
                           isFavorite ? Icons.favorite : Icons.favorite_border,

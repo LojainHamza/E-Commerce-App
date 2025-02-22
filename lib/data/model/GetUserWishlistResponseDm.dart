@@ -1,15 +1,15 @@
 import 'package:e_commerce_app/data/model/CategoryOrBrandResponseDm.dart';
 import 'package:e_commerce_app/data/model/ProductResponseDm.dart';
-import 'package:e_commerce_app/domain/entities/GetUserWishlistEntity.dart';
+import 'package:e_commerce_app/domain/entities/GetUserWishlistResponseEntity.dart';
 
-class GetUserWishlistDm extends GetUserWishlistEntity {
-  GetUserWishlistDm(
+class GetUserWishlistResponseDm extends GetUserWishlistResponseEntity {
+  GetUserWishlistResponseDm(
       {super.status, super.count, super.data, this.statusMsg, this.message});
 
   String? statusMsg;
   String? message;
 
-  GetUserWishlistDm.fromJson(dynamic json) {
+  GetUserWishlistResponseDm.fromJson(dynamic json) {
     status = json['status'];
     count = json['count'];
     if (json['data'] != null) {

@@ -65,7 +65,7 @@ class CartItem extends StatelessWidget {
                       IconButton(
                           onPressed: () {
                             ToastMessage.toastMessage(
-                                msg: 'Item deleted successfully',
+                                msg: 'Item removed from cart successfully',
                                 backgroundColor: AppColors.greenColor,
                                 textColor: AppColors.whiteColor);
                             CartViewModel.get(context).deleteItemsInCart(

@@ -1,8 +1,8 @@
 import 'package:e_commerce_app/domain/entities/CategoryOrBrandResponseEntity.dart';
 import 'package:e_commerce_app/domain/entities/ProductResponseEntity.dart';
 
-class GetUserWishlistEntity {
-  GetUserWishlistEntity({
+class GetUserWishlistResponseEntity {
+  GetUserWishlistResponseEntity({
     this.status,
     this.count,
     this.data,
