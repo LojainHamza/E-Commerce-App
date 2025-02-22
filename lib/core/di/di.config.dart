@@ -14,6 +14,8 @@ import 'package:injectable/injectable.dart' as _i526;
 
 import '../../data/data_sources/remote_data_sources/auth_remote_data_source_impl.dart'
     as _i1057;
+import '../../data/data_sources/remote_data_sources/cart_remote_data_source_impl.dart';
+import '../../data/data_sources/remote_data_sources/home_remote_data_source_impl.dart';
 import '../../data/data_sources/remote_data_sources/wishlist_remote_data_source_impl.dart'
     as _i243;
 import '../../data/repositories/auth_repository_impl.dart' as _i895;
@@ -70,9 +72,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.singleton<_i1047.ApiManager>(() => _i1047.ApiManager());
     gh.factory<_i629.CartRemoteDataSource>(
-        () => CartRemoteDataSourceImpl(apiManager: gh<ApiManager>()));
+        () => CartRemoteDataSourceImpl(apiManager: gh<_i1047.ApiManager>()));
     gh.factory<_i923.HomeRemoteDataSource>(
-        () => HomeRemoteDataSourceImpl(apiManager: gh<ApiManager>()));
+        () => HomeRemoteDataSourceImpl(apiManager: gh<_i1047.ApiManager>()));
     gh.factory<_i22.HomeRepository>(() => _i514.HomeRepositoryImpl(
         homeRemoteDataSource: gh<_i923.HomeRemoteDataSource>()));
     gh.factory<_i580.WishlistRemoteDataSource>(() =>
