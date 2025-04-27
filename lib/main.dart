@@ -50,7 +50,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           initialRoute: routeName,
           routes: {
-            AppRoutes.splashScreenRoute: (context) => SplashScreen(),
+            // AppRoutes.splashScreenRoute: (context) => SplashScreen(),
             AppRoutes.registerRoute: (context) => RegisterScreen(),
             AppRoutes.loginRoute: (context) => LoginScreen(),
             AppRoutes.homeRoute: (context) => HomeScreen(),
